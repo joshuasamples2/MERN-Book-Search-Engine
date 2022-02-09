@@ -23,6 +23,10 @@ const resolvers = {
       if (!user){
         throw new AuthenticationError('Incorrect email')
       }
+      const correctPw = await user.isCorrectPassword(password);
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect password');
+      }
       const token = signToken(user)
       return {token,user};
     },
